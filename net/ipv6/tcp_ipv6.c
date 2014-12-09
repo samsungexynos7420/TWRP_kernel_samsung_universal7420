@@ -930,7 +930,7 @@ static void tcp_v6_send_response(struct sock *sk, struct sk_buff *skb, u32 seq, 
 	struct tcphdr *t1;
 	struct sk_buff *buff;
 	struct flowi6 fl6;
-	struct net *net = dev_net(skb_dst(skb)->dev);
+	struct net *net = sk ? sock_net(sk) : dev_net(skb_dst(skb)->dev);
 	struct sock *ctl_sk = net->ipv6.tcp_sk;
 	unsigned int tot_len = sizeof(struct tcphdr);
 	struct dst_entry *dst;
