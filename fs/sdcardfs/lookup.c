@@ -268,11 +268,6 @@ static struct dentry *__sdcardfs_lookup(struct dentry *dentry,
 	struct dentry *ret_dentry = NULL;
 	struct sdcardfs_sb_info *sbi;
 
-#ifdef CONFIG_SDCARD_FS_CI_SEARCH
-	unsigned int lower_flags = LOOKUP_CASE_INSENSITIVE;
-#else
-	unsigned int lower_flags = 0;
-#endif
 	unsigned long lower_magic;
 
 	sbi = SDCARDFS_SB(dentry->d_sb);
@@ -290,10 +285,9 @@ static struct dentry *__sdcardfs_lookup(struct dentry *dentry,
 	lower_magic = lower_dir_mnt->mnt_sb->s_magic;
 
 	/* Use vfs_path_lookup to check if the dentry exists or not */
-	err = vfs_path_lookup(lower_dir_dentry, lower_dir_mnt, name->name,
-			lower_flags, &lower_path);
-	if (err == -ENOENT && (lower_magic == ECRYPTFS_SUPER_MAGIC ||
-			(!lower_flags && lower_magic == EXT4_SUPER_MAGIC))) {
+	err = vfs_path_lookup(lower_dir_dentry, lower_dir_mnt, name, 0,
+				&lower_path);
+	if (err == -ENOENT) {
 		struct file *file;
 		const struct cred *cred = current_cred();
 
