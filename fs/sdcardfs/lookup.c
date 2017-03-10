@@ -164,12 +164,8 @@ struct inode *sdcardfs_iget(struct super_block *sb, struct inode *lower_inode, u
 }
 
 /*
- * Connect a sdcardfs inode dentry/inode with several lower ones.  This is
- * the classic stackable file system "vnode interposition" action.
- *
- * @dentry: sdcardfs's dentry which interposes on lower one
- * @sb: sdcardfs's super_block
- * @lower_path: the lower path (caller does path_get/put)
+ * Helper interpose routine, called directly by ->lookup to handle
+ * spliced dentries.
  */
 static struct dentry *__sdcardfs_interpose(struct dentry *dentry,
 					 struct super_block *sb,
