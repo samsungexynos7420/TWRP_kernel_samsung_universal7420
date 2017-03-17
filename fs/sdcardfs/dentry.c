@@ -131,12 +131,10 @@ out:
 static void sdcardfs_d_release(struct dentry *dentry)
 {
 	/* release and reset the lower paths */
-	if(has_graft_path(dentry)) {
+	if (has_graft_path(dentry))
 		sdcardfs_put_reset_orig_path(dentry);
-	}
 	sdcardfs_put_reset_lower_path(dentry);
 	free_dentry_private_data(dentry);
-	return;
 }
 
 static int sdcardfs_hash_ci(const struct dentry *dentry, 
