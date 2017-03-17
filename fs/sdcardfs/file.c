@@ -187,8 +187,7 @@ static int sdcardfs_mmap(struct file *file, struct vm_area_struct *vma)
 	lower_file = sdcardfs_lower_file(file);
 	if (willwrite && !lower_file->f_mapping->a_ops->writepage) {
 		err = -EINVAL;
-		printk(KERN_ERR "sdcardfs: lower file system does not "
-		       "support writeable mmap\n");
+		pr_err("sdcardfs: lower file system does not support writeable mmap\n");
 		goto out;
 	}
 
@@ -200,7 +199,7 @@ static int sdcardfs_mmap(struct file *file, struct vm_area_struct *vma)
 	if (!SDCARDFS_F(file)->lower_vm_ops) {
 		err = lower_file->f_op->mmap(lower_file, vma);
 		if (err) {
-			printk(KERN_ERR "sdcardfs: lower mmap failed %d\n", err);
+			pr_err("sdcardfs: lower mmap failed %d\n", err);
 			goto out;
 		}
 		saved_vm_ops = vma->vm_ops; /* save: came from lower ->mmap */

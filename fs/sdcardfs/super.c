@@ -87,7 +87,7 @@ static int sdcardfs_statfs(struct dentry *dentry, struct kstatfs *buf)
 	if (sbi->options.reserved_mb) {
 		/* Invalid statfs informations. */
 		if (buf->f_bsize == 0) {
-			printk(KERN_ERR "Returned block size is zero.\n");
+			pr_err("Returned block size is zero.\n");
 			return -EINVAL;
 		}
 	

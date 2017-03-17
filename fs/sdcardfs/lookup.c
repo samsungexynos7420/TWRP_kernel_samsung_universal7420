@@ -353,9 +353,10 @@ put_name:
 				/* if the sbi->obbpath is not available, we can optionally
 				 * setup the lower_path with its orig_path. 
 				 * but, the current implementation just returns an error
-				 * because the sdcard daemon also regards this case as 
-				 * a lookup fail. */
-				printk(KERN_INFO "sdcardfs: base obbpath is not available\n"); 
+				 * because the sdcard daemon also regards this case as
+				 * a lookup fail.
+				 */
+				pr_info("sdcardfs: base obbpath is not available\n");
 				sdcardfs_put_reset_orig_path(dentry);
 				goto out;
 			}
