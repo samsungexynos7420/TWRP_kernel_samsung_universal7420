@@ -184,7 +184,11 @@ static int __init enforcing_setup(char *str)
 {
 	unsigned long enforcing;
 	if (!strict_strtoul(str, 0, &enforcing))
-		selinux_enforcing = enforcing ? 1 : 0;
+		#ifdef CONFIG_SECURITY_SELINUX_PERMISSIVE
+			selinux_enforcing = 0;
+		#else
+			selinux_enforcing = enforcing ? 1 : 0;
+		#endif
 	return 1;
 }
 __setup("enforcing=", enforcing_setup);
@@ -6885,6 +6889,7 @@ static struct nf_hook_ops selinux_ipv6_ops[] = {
 static int __init selinux_nf_ip_init(void)
 {
 	int err = 0;
+
 	if (!selinux_enabled)
 		goto out;
 
